@@ -61,7 +61,7 @@ const employeeCard = (employee) => {
   switch(role) {
     case "Manager":
       html = `<div class='card m-5 c-${role}'>
-                <div class='card-body' style="background-color:blue;">
+                <div class='card-body'>
                     <h5 class="card-title">${employee.name}</h5>
                     <p class="card-text">${role}</p>
                 </div>
@@ -70,19 +70,21 @@ const employeeCard = (employee) => {
                     <li class="list-group-item">Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
                     <li class="list-group-item">Office Number: ${employee.officeNum}</a></li>
                   </ul>
-              </div>`
+              </div>`;
+      break;
     case "Engineer": 
       html = `<div class='card m-5 c-${role}'>
-                <div class='card-body' style="background-color:blue;">
+                <div class='card-body'>
                     <h5 class="card-title">${employee.name}</h5>
                     <p class="card-text">${role}</p>
                 </div>
                   <u class="list-group list-group-flush"l>
                     <li class="list-group-item">ID: ${employee.id}</li>
                     <li class="list-group-item">Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
-                    <li class="list-group-item">Github: <a href="github.com/${employee.github}">${employee.github}</a></li>
+                    <li class="list-group-item">Github: <a href="https://www.github.com/${employee.github}">${employee.github}</a></li>
                   </ul>
-              </div>`
+              </div>`;
+      break;
     case "Intern":
       html = `<div class='card m-5 c-${role}'>
                 <div class='card-body'>
@@ -94,7 +96,8 @@ const employeeCard = (employee) => {
                       <li class="list-group-item">Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
                       <li class="list-group-item">University: ${employee.school}</li>
                   </ul>
-              </div>`
+              </div>`;
+      break;
   }
   htmlCards += html;
 }
@@ -133,6 +136,8 @@ const addEmployee = (answer, job) => {
   const officeNum = answer.officeNum;
   const github = answer.github;
   const school = answer.school;
+
+
 
   switch(job) {
     case "Manager":
