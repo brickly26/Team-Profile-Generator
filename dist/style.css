@@ -18,12 +18,27 @@ h1 {
 
 .container {
   display: flex;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
 }
 
-.card {
-  height: 250px;
-  width: 200px;
-  
+.c-Manager {
+  background-color:indigo;
+}
+
+.c-Engineer {
+  background-color: steelblue;
+}
+
+.c-Intern {
+  background-color: darkred;
+}
+
+h5 {
+  color: white;
+}
+
+p {
+  color: white;
 }

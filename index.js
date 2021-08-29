@@ -40,7 +40,7 @@ const managerQuestions = Questions.concat(
 const engineerQuestions = Questions.concat(
   {
     type: "input",
-    name: "officeNum",
+    name: "github",
     message: "what is the Engineer's Github?"
   }
 );
@@ -60,41 +60,39 @@ const employeeCard = (employee) => {
 
   switch(role) {
     case "Manager":
-      html = `<div class='card'>
-                <div class='card-heading'>
-                    <p>${employee.name}</p>
-                    <p>${role}</p>
-                </div>
-                <div class='card-body'>
-                    <ul>
-                        <li>ID: ${employee.id}</li>
-                        <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
-                        <li>Office Number: ${employee.officeNum}</li>
-                    </ul>
-                </div>
-              </div>`
-    case "Engineer": 
-      html = `<div class='card mt-5'>
+      html = `<div class='card m-5 c-${role}'>
                 <div class='card-body' style="background-color:blue;">
                     <h5 class="card-title">${employee.name}</h5>
                     <p class="card-text">${role}</p>
                 </div>
-                  <ul>
-                    <li>ID: ${employee.id}</li>
-                    <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
-                    <li>Github: <a href="github.com/${employee.github}">${employee.github}</a></li>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">ID: ${employee.id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
+                    <li class="list-group-item">Office Number: ${employee.officeNum}</a></li>
+                  </ul>
+              </div>`
+    case "Engineer": 
+      html = `<div class='card m-5 c-${role}'>
+                <div class='card-body' style="background-color:blue;">
+                    <h5 class="card-title">${employee.name}</h5>
+                    <p class="card-text">${role}</p>
+                </div>
+                  <u class="list-group list-group-flush"l>
+                    <li class="list-group-item">ID: ${employee.id}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
+                    <li class="list-group-item">Github: <a href="github.com/${employee.github}">${employee.github}</a></li>
                   </ul>
               </div>`
     case "Intern":
-      html = `<div class='card'>
+      html = `<div class='card m-5 c-${role}'>
                 <div class='card-body'>
                     <h5 class="card-title">${employee.name}</h5>
                     <p class="card-text">${role}</p>
                 </div>
-                  <ul>
-                      <li>ID: ${employee.id}</li>
-                      <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
-                      <li>Office Number: ${employee.school}</li>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">ID: ${employee.id}</li>
+                      <li class="list-group-item">Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
+                      <li class="list-group-item">University: ${employee.school}</li>
                   </ul>
               </div>`
   }
@@ -114,14 +112,14 @@ const finalHtmlCreator = (htmlCards) => {
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
         crossorigin="anonymous"
       />
-      <link rel='stylesheet' href='./styles.css'>
+      <link rel='stylesheet' href='./style.css'>
       <title>Team Profile</title>
   </head>
   <body>
       <header>
           <h1 id='heading'>Team</h1>
       </header>
-      <main class='container row'>
+      <main class='container'>
           ${htmlCards}
       </main>
   </body>
@@ -146,7 +144,6 @@ const addEmployee = (answer, job) => {
     case "Intern":
       employee = new Intern(name, id, email, school)
   }
-  console.log(employee)
 
   employeeCard(employee);
 }
