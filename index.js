@@ -1,17 +1,17 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const Manager = require("./lib/assets/js/Manager");
-const Engineer = require("./lib/assets/js/Emgineer");
-const Intern = require("./lib/assets/js/Intern");
-const filename = "./dist/index.html";
+const Manager = require("./lib/Manager.js");
+const Engineer = require("./lib/Engineer.js");
+const Intern = require("./lib/Intern.js");
+const fileName = "./dist/index.html";
 
 // DATA
 let htmlCards = ``;
 let job = "Manager";
-const finalHtml = ``;
+let finalHtml = ``;
 
 // Questions
-const commonQuestions = [
+const Questions = [
   {
     type: "input",
     name: "name",
@@ -19,7 +19,7 @@ const commonQuestions = [
   },
   {
     type: "input",
-    name: "ID",
+    name: "id",
     message: "what is the employee's ID?"
   },
   {
@@ -29,45 +29,27 @@ const commonQuestions = [
   }
 ]
 
-const managerQuestions = commonQuestions.concat(
+const managerQuestions = Questions.concat(
   {
     type: "input",
     name: "officeNum",
     message: "what is the Manager's office number?"
-  },
-  {
-    type: "list",
-    name: "add",
-    message: "Would you like you add another team member?",
-    choices: ["Intern", "Engineer", "No!"]
   }
 );
 
-const engineerQuestions = commonQuestions.concat(
+const engineerQuestions = Questions.concat(
   {
     type: "input",
     name: "officeNum",
     message: "what is the Engineer's Github?"
-  },
-  {
-    type: "list",
-    name: "add",
-    message: "Would you like you add another team member?",
-    choices: ["Intern", "Engineer", "No!"]
   }
 );
 
-const internQuestions = commonQuestions.concat(
+const internQuestions = Questions.concat(
   {
     type: "input",
     name: "school",
     message: "what is the Intern's school?"
-  },
-  {
-    type: "list",
-    name: "add",
-    message: "Would you like you add another team member?",
-    choices: ["Intern", "Engineer", "No!"]
   }
 );
 
@@ -79,46 +61,42 @@ const employeeCard = (employee) => {
   switch(role) {
     case "Manager":
       html = `<div class='card'>
-        <div class='card-heading'>
-            <p>${employee.name}</p>
-            <p>${role}</p>
-        </div>
-        <div class='card-body'>
-            <ul>
-                <li>ID: ${employee.Id}</li>
-                <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
-                <li>Office Number: ${employee.officeNum}</li>
-            </ul>
-        </div>
+                <div class='card-heading'>
+                    <p>${employee.name}</p>
+                    <p>${role}</p>
+                </div>
+                <div class='card-body'>
+                    <ul>
+                        <li>ID: ${employee.id}</li>
+                        <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
+                        <li>Office Number: ${employee.officeNum}</li>
+                    </ul>
+                </div>
               </div>`
     case "Engineer": 
-      html = `<div class='card'>
-          <div class='card-heading'>
-              <p>${employee.name}</p>
-              <p>${role}</p>
-          </div>
-          <div class='card-body'>
-              <ul>
-                  <li>ID: ${employee.Id}</li>
-                  <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
-                  <li>Office Number: ${employee.officeNum}</li>
-              </ul>
-          </div>
-                </div>`
+      html = `<div class='card mt-5'>
+                <div class='card-body' style="background-color:blue;">
+                    <h5 class="card-title">${employee.name}</h5>
+                    <p class="card-text">${role}</p>
+                </div>
+                  <ul>
+                    <li>ID: ${employee.id}</li>
+                    <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
+                    <li>Github: <a href="github.com/${employee.github}">${employee.github}</a></li>
+                  </ul>
+              </div>`
     case "Intern":
       html = `<div class='card'>
-      <div class='card-heading'>
-          <p>${employee.name}</p>
-          <p>${role}</p>
-      </div>
-      <div class='card-body'>
-          <ul>
-              <li>ID: ${employee.Id}</li>
-              <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
-              <li>Office Number: ${employee.officeNum}</li>
-          </ul>
-      </div>
-            </div>`
+                <div class='card-body'>
+                    <h5 class="card-title">${employee.name}</h5>
+                    <p class="card-text">${role}</p>
+                </div>
+                  <ul>
+                      <li>ID: ${employee.id}</li>
+                      <li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li>
+                      <li>Office Number: ${employee.school}</li>
+                  </ul>
+              </div>`
   }
   htmlCards += html;
 }
@@ -130,14 +108,20 @@ const finalHtmlCreator = (htmlCards) => {
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel='stylesheet' href='./css/styles.css'>
-      <title>Team Profile Generator</title>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous"
+      />
+      <link rel='stylesheet' href='./styles.css'>
+      <title>Team Profile</title>
   </head>
   <body>
       <header>
-          <h1 id='heading'>My Team</h1>
+          <h1 id='heading'>Team</h1>
       </header>
-      <main class='container'>
+      <main class='container row'>
           ${htmlCards}
       </main>
   </body>
@@ -146,7 +130,7 @@ const finalHtmlCreator = (htmlCards) => {
 
 const addEmployee = (answer, job) => {
   const name = answer.name;
-  const ID = answer.ID;
+  const id = answer.id;
   const email = answer.email;
   const officeNum = answer.officeNum;
   const github = answer.github;
@@ -154,14 +138,15 @@ const addEmployee = (answer, job) => {
 
   switch(job) {
     case "Manager":
-      employee = new (name, ID, email, officeNum);
+      employee = new Manager(name, id, email, officeNum);
       break;
     case "Engineer":
-      employee = new Engineer(name, ID, email, github);
+      employee = new Engineer(name, id, email, github)
       break;
     case "Intern":
-      employee = new Intern(name, ID, email, school)
+      employee = new Intern(name, id, email, school)
   }
+  console.log(employee)
 
   employeeCard(employee);
 }
@@ -176,22 +161,40 @@ const startInquirer = (questions) => {
   inquirer
   .prompt(questions)
   .then((answers) => {
-    const userChoice = answers.add;
-    
-    addEmployee(answers, job);
+    inquirer.prompt([
+      {
+        type: "confirm",
+        name: "add",
+        message: "Would you like to add another employee to the team?"
+      }
+    ]).then((choice) => {
+      addEmployee(answers, job);
+      if (choice.add) {
+        inquirer.prompt([
+          {
+            type: "list",
+            name: "newRole",
+            message: "Which role would you like to add?",
+            choices: ["Engineer", "Intern"]
+          }
+        ]).then((empChoice) => {
+          const userChoice = empChoice.newRole;
 
-    job = userChoice;
-    if(job === "No!") {
-      finalHtmlCreator(htmlCards);
-      GenerateHtml(finalHtml);
-    } else {
-      init();
-    }
+          job = userChoice;
+
+          init();
+        })
+      } else {
+        finalHtmlCreator(htmlCards);
+        GenerateHtml(finalHtml);
+      }
+    });
   });
 }
 
 const init = () => {
   if (job === "Manager") {
+    console.log("Lets start by adding a Manager.")
     startInquirer(managerQuestions);
   } else if (job === "Engineer"){
     startInquirer(engineerQuestions);
